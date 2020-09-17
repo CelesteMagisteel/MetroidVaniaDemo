@@ -18,6 +18,8 @@ public abstract class Tile implements Serializable {
     public File get64Texture() { return new File(String.valueOf(MetroidVaniaDemo.class.getResource("./block/texture/64.png"))); }
     public File get256Texture() { return new File(String.valueOf(MetroidVaniaDemo.class.getResource("./block/texture/256.png"))); }
 
+    public char getShortCode() { return texture.charAt(0); }
+
     /**
      * Process a player walking or jumping into a tile
      * @param entity The entity colliding with the tile

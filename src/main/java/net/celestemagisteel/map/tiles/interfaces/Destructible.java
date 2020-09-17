@@ -1,4 +1,4 @@
-package net.celestemagisteel.map;
+package net.celestemagisteel.map.tiles.interfaces;
 
 import net.celestemagisteel.entity.Entity;
 

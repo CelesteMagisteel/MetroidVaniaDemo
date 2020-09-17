@@ -4,10 +4,10 @@ import net.celestemagisteel.entity.Entity;
 import net.celestemagisteel.map.Tile;
 import net.celestemagisteel.map.TileFace;
 
-public class WallTile extends Tile {
+public class BasicTile extends Tile {
 
-    public WallTile() {
-        super("wall");
+    public BasicTile(String texture) {
+        super(texture);
     }
 
     @Override
