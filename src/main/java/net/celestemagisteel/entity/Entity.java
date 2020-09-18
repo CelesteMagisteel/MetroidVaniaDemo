@@ -1,7 +1,7 @@
 package net.celestemagisteel.entity;
 
 import javafx.scene.image.Image;
-import net.celestemagisteel.MetroidVaniaDemo;
+import net.celestemagisteel.Game;
 
 public abstract class Entity {
 
@@ -16,15 +16,15 @@ public abstract class Entity {
     }
 
     public Image get16Sprite(EntityState state) {
-        return new Image(MetroidVaniaDemo.class.getResourceAsStream("./entity/" + sprite + "/" + state + "/16.png"));
+        return new Image(Game.class.getResourceAsStream("./entity/" + sprite + "/" + state + "/16.png"));
     }
 
     public Image get64Sprite(EntityState state) {
-        return new Image(MetroidVaniaDemo.class.getResourceAsStream("./entity/" + sprite + "/" + state + "/64.png"));
+        return new Image(Game.class.getResourceAsStream("./entity/" + sprite + "/" + state + "/64.png"));
     }
 
     public Image get256Sprite(EntityState state) {
-        return new Image(MetroidVaniaDemo.class.getResourceAsStream("./entity/" + sprite + "/" + state + "/256.png"));
+        return new Image(Game.class.getResourceAsStream("./entity/" + sprite + "/" + state + "/256.png"));
     }
 
     public int getMaxHealth() {
