@@ -13,11 +13,13 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import net.celestemagisteel.map.Tile;
 import net.celestemagisteel.map.TileMap;
+import net.celestemagisteel.map.tiles.solid.BasicTile;
 
 public class Game extends Application {
 
     private static TileMap map;
     private static Canvas canvas;
+    private static final Tile background = new BasicTile("background");
 
     public static void main(String[] args) {
         map = TileMap.generateBasicTileMap();
@@ -46,9 +48,7 @@ public class Game extends Application {
         for (int y = 0; y < TileMap.MAP_SIZE; y++) {
             for (int x = 0; x < TileMap.MAP_SIZE; x++) {
                 Tile tile = map.getTile(x, y);
-                if (tile != null) {
-                    canvas.getGraphicsContext2D().drawImage(tile.get16Texture(), x * 16, y * 16);
-                }
+                canvas.getGraphicsContext2D().drawImage(tile == null ? background.get16Texture() : tile.get16Texture(), x * 16, y * 16);
             }
         }
     }
