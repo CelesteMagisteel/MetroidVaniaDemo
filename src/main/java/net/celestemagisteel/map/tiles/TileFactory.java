@@ -12,4 +12,6 @@ public class TileFactory {
     public static Tile generateNewFloorTile() {
         return new BasicTile("floor");
     }
+
+    public static Tile generateBackgroundTile() { return new BackgroundTile("background"); }
 }

@@ -30,7 +30,7 @@ public abstract class Tile implements Serializable {
     /**
      * Process a player stepping or falling onto a tile
      * @param entity The entity colliding with the tile
-     *               @param face The face the entity collided with
+     * @param face The face the entity collided with
      * @return whether the entity should pass through the tile
      */
     public abstract boolean onStepOn(Entity entity, TileFace face);

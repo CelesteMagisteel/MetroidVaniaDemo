@@ -1,29 +1,37 @@
 package net.celestemagisteel;
 
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import net.celestemagisteel.engine.GameState;
+import net.celestemagisteel.entity.Player;
 import net.celestemagisteel.map.Tile;
 import net.celestemagisteel.map.TileMap;
 import net.celestemagisteel.map.tiles.solid.BasicTile;
+
+import java.util.ArrayList;
 
 public class Game extends Application {
 
     private static TileMap map;
     private static Canvas canvas;
+    private static GameState state;
     private static final Tile background = new BasicTile("background");
-    private static final int SPRITE_SIZE = 32;
+    public static final int SPRITE_SIZE = 32;
 
     public static void main(String[] args) {
-        map = TileMap.generateBasicTileMap();
         canvas = new Canvas(TileMap.MAP_WIDTH * SPRITE_SIZE, TileMap.MAP_WIDTH * SPRITE_SIZE);
+        state = new GameState(TileMap.generateBasicTileMap(), background, new Player("player", 20, 1, TileMap.MAP_HEIGHT-2), new ArrayList<>(), canvas);
+
         launch(args);
     }
 
@@ -36,20 +44,26 @@ public class Game extends Application {
         root.layoutBoundsProperty().addListener((observable, oldValue, newValue) -> {
             canvas.setWidth(TileMap.MAP_WIDTH * SPRITE_SIZE);
             canvas.setHeight(TileMap.MAP_HEIGHT * SPRITE_SIZE);
-            drawCanvas();
+            state.drawGameState(canvas);
         });
         root.getChildren().add(canvas);
         Scene scene = new Scene(root, TileMap.MAP_WIDTH * SPRITE_SIZE, TileMap.MAP_HEIGHT * SPRITE_SIZE);
+        scene.setOnKeyPressed(keyEvent -> {
+            switch (keyEvent.getCode()) {
+                case D: state.startWalkForward(); break;
+                case A: state.startWalkBackwards(); break;
+            }
+        });
+
+        scene.setOnKeyReleased(event -> {
+            switch (event.getCode()) {
+                case D: state.stopWalkForward(); break;
+                case A: state.stopWalkBackwards(); break;
+            }
+        });
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
-    private static void drawCanvas() {
-        for (int y = 0; y < TileMap.MAP_HEIGHT; y++) {
-            for (int x = 0; x < TileMap.MAP_WIDTH; x++) {
-                Tile tile = map.getTile(x, y);
-                canvas.getGraphicsContext2D().drawImage(tile == null ? background.getTexture(SPRITE_SIZE, SPRITE_SIZE) : tile.getTexture(SPRITE_SIZE, SPRITE_SIZE), x * SPRITE_SIZE, y * SPRITE_SIZE);
-            }
-        }
-    }
+
 }
