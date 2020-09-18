@@ -1,5 +1,6 @@
 package net.celestemagisteel.map;
 
+import javafx.scene.image.Image;
 import net.celestemagisteel.MetroidVaniaDemo;
 import net.celestemagisteel.entity.Entity;
 
@@ -14,10 +15,9 @@ public abstract class Tile implements Serializable {
         this.texture = texture;
     }
 
-    public File get16Texture() { return new File(String.valueOf(MetroidVaniaDemo.class.getResource("./block/texture/16.png"))); }
-    public File get64Texture() { return new File(String.valueOf(MetroidVaniaDemo.class.getResource("./block/texture/64.png"))); }
-    public File get256Texture() { return new File(String.valueOf(MetroidVaniaDemo.class.getResource("./block/texture/256.png"))); }
-
+    public Image get16Texture() { return new Image(MetroidVaniaDemo.class.getResourceAsStream("./block/" + texture + "/16.png")); }
+    public Image get64Texture() { return new Image(MetroidVaniaDemo.class.getResourceAsStream("./block/" + texture + "/64.png")); }
+    public Image get256Texture() { return new Image(MetroidVaniaDemo.class.getResourceAsStream("./block/" + texture + "/256.png")); }
     public char getShortCode() { return texture.charAt(0); }
 
     /**

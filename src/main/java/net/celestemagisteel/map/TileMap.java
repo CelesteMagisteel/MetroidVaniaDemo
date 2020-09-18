@@ -7,8 +7,8 @@ import java.util.Random;
 
 public class TileMap implements Serializable {
 
-    private static final int mapSize = 32;
-    private Tile[][] map = new Tile[mapSize][mapSize];
+    public static final int MAP_SIZE = 32;
+    private Tile[][] map = new Tile[MAP_SIZE][MAP_SIZE];
 
     private TileMap(Tile[][] map) {
         this.map = map;
@@ -23,8 +23,8 @@ public class TileMap implements Serializable {
     public Tile getTile(int x, int y) { return map[y][x]; }
 
     public void printTileMap() {
-        for (int y = 0; y < mapSize-1; y++) {
-            for (int x = 0; x < mapSize-1; x ++) {
+        for (int y = 0; y < MAP_SIZE; y++) {
+            for (int x = 0; x < MAP_SIZE; x ++) {
                 if (map[y][x] == null) {
                     System.out.print(" ");
                 } else {
@@ -36,28 +36,19 @@ public class TileMap implements Serializable {
     }
 
     public static TileMap generateBasicTileMap() {
-        Tile[][] map = new Tile[mapSize][mapSize];
+        Tile[][] map = new Tile[MAP_SIZE][MAP_SIZE];
         Random random = new Random();
 
         // Outline
-        for (int i = 0; i < mapSize-1; i++) {
+        for (int i = 0; i < MAP_SIZE; i++) {
             map[0][i] = TileFactory.generateNewWallTile();
-            if (i < mapSize-2) {
+            if (i < MAP_SIZE-1) {
                 map[i][0] = TileFactory.generateNewWallTile();
-                map[i][mapSize-1] = TileFactory.generateNewWallTile();
+                map[i][MAP_SIZE-1] = TileFactory.generateNewWallTile();
             }
-            map[mapSize-1][i] = TileFactory.generateNewFloorTile();
+            map[MAP_SIZE-1][i] = TileFactory.generateNewFloorTile();
         }
 
-        // Random Block Obstacles
-
-        for (int i = 0; i < Math.abs(random.nextInt() % 30); i++) {
-            int height = Math.abs(random.nextInt() % 4) + 1;
-            int x = Math.abs(random.nextInt() % mapSize-3) + 1;
-            for (int y = 0; y < height; y++) {
-                map[mapSize-1-y][x] = TileFactory.generateNewFloorTile();
-            }
-        }
 
         return new TileMap(map);
     }
