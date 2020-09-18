@@ -1,14 +1,15 @@
 package net.celestemagisteel.map;
 
 import net.celestemagisteel.map.tiles.TileFactory;
+import net.celestemagisteel.map.tiles.solid.BasicTile;
 
 import java.io.Serializable;
-import java.util.Random;
 
 public class TileMap implements Serializable {
 
-    public static final int MAP_SIZE = 32;
-    private Tile[][] map = new Tile[MAP_SIZE][MAP_SIZE];
+    public static final int MAP_WIDTH = 32;
+    public static final int MAP_HEIGHT = 16;
+    private Tile[][] map = new Tile[MAP_HEIGHT][MAP_WIDTH];
 
     private TileMap(Tile[][] map) {
         this.map = map;
@@ -21,16 +22,16 @@ public class TileMap implements Serializable {
     public Tile getTile(int x, int y) { return map[y][x]; }
 
     public static TileMap generateBasicTileMap() {
-        Tile[][] map = new Tile[MAP_SIZE][MAP_SIZE];
+        Tile[][] map = new Tile[MAP_HEIGHT][MAP_WIDTH];
 
-        // Outline
-        for (int i = 0; i < MAP_SIZE; i++) {
-            map[0][i] = TileFactory.generateNewWallTile();
-            if (i < MAP_SIZE-1) {
-                map[i][0] = TileFactory.generateNewWallTile();
-                map[i][MAP_SIZE-1] = TileFactory.generateNewWallTile();
-            }
-            map[MAP_SIZE-1][i] = TileFactory.generateNewFloorTile();
+        for (int i = 0; i < MAP_HEIGHT; i++) {
+            map[i][0] = new BasicTile("wall");
+            map[i][MAP_WIDTH-1] = new BasicTile("wall");
+        }
+
+        for (int i = 0; i < MAP_WIDTH; i++) {
+            map[0][i] = new BasicTile("wall");
+            map[MAP_HEIGHT-1][i] = new BasicTile("floor");
         }
 
         return new TileMap(map);

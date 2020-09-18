@@ -8,15 +8,15 @@ import java.io.Serializable;
 
 public abstract class Tile implements Serializable {
 
-    private String texture;
+    private final String texture;
 
     public Tile(String texture) {
         this.texture = texture;
     }
 
-    public Image get16Texture() { return new Image(Game.class.getResourceAsStream("./block/" + texture + "/16.png")); }
-    public Image get64Texture() { return new Image(Game.class.getResourceAsStream("./block/" + texture + "/64.png")); }
-    public Image get256Texture() { return new Image(Game.class.getResourceAsStream("./block/" + texture + "/256.png")); }
+    public Image getTexture(int width, int height) {
+        return new Image(Game.class.getResourceAsStream("block/" + texture + ".png"), width, height, false, false);
+    }
     public char getShortCode() { return texture.charAt(0); }
 
     /**
