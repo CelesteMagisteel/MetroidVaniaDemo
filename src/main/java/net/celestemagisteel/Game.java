@@ -44,7 +44,7 @@ public class Game extends Application {
         root.layoutBoundsProperty().addListener((observable, oldValue, newValue) -> {
             canvas.setWidth(TileMap.MAP_WIDTH * SPRITE_SIZE);
             canvas.setHeight(TileMap.MAP_HEIGHT * SPRITE_SIZE);
-            state.drawGameState(canvas);
+            state.drawFullGameState(canvas);
         });
         root.getChildren().add(canvas);
         Scene scene = new Scene(root, TileMap.MAP_WIDTH * SPRITE_SIZE, TileMap.MAP_HEIGHT * SPRITE_SIZE);
@@ -52,6 +52,8 @@ public class Game extends Application {
             switch (keyEvent.getCode()) {
                 case D: state.startWalkForward(); break;
                 case A: state.startWalkBackwards(); break;
+                case W: state.startGoUp(); break;
+                case S: state.startGoDown(); break;
             }
         });
 
@@ -59,6 +61,8 @@ public class Game extends Application {
             switch (event.getCode()) {
                 case D: state.stopWalkForward(); break;
                 case A: state.stopWalkBackwards(); break;
+                case W: state.stopGoUp(); break;
+                case S: state.stopGoDown(); break;
             }
         });
         primaryStage.setScene(scene);

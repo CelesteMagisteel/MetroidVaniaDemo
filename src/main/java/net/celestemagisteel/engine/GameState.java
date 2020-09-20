@@ -23,6 +23,8 @@ public class GameState extends TimerTask {
     private final Canvas canvas;
     private boolean walkForward = false;
     private boolean walkBackwards = false;
+    private boolean goUp = false;
+    private boolean goDown = false;
 
     public GameState(TileMap map, Tile background, Entity player, List<Entity> entities, Canvas canvas) {
         this.map = map;
@@ -33,7 +35,7 @@ public class GameState extends TimerTask {
         new Timer().scheduleAtFixedRate(this, 0, 1000/30);
     }
 
-    public void drawGameState(Canvas canvas) {
+    public void drawFullGameState(Canvas canvas) {
         for (int y = 0; y < TileMap.MAP_HEIGHT; y++) {
             for (int x = 0; x < TileMap.MAP_WIDTH; x++) {
                 Tile tile = map.getTile(x, y);
@@ -46,27 +48,55 @@ public class GameState extends TimerTask {
         canvas.getGraphicsContext2D().drawImage(player.getSprite(EntityState.DEFAULT, SPRITE_SIZE, SPRITE_SIZE), player.getX() * SPRITE_SIZE, player.getY() * SPRITE_SIZE);
     }
 
+    public void updateMovement(int oldX, int oldY) {
+        canvas.getGraphicsContext2D().drawImage(player.getSprite(EntityState.DEFAULT, SPRITE_SIZE, SPRITE_SIZE), player.getX() * SPRITE_SIZE, player.getY() * SPRITE_SIZE);
+        canvas.getGraphicsContext2D().drawImage(background.getTexture(SPRITE_SIZE, SPRITE_SIZE), oldX * SPRITE_SIZE, oldY * SPRITE_SIZE);
+    }
+
+
     public void startWalkForward() { walkForward = true; }
     public void stopWalkForward() { walkForward = false; }
     public void startWalkBackwards() { walkBackwards = true; }
     public void stopWalkBackwards() { walkBackwards = false; }
+    public void startGoUp() { goUp = true; }
+    public void stopGoUp() { goUp = false; }
+    public void startGoDown() { goDown = true; }
+    public void stopGoDown() { goDown = false; }
     // TODO: Fix canvas stop updating after a random amount of time
     @Override
     public void run() {
         if (walkForward) {
-            System.out.println("Walking Right");
             int newX = player.getX() + 1;
             Tile newTile = map.getTile(newX, player.getY());
-            if (newTile == null || newTile.onCollide(player, TileFace.WEST)) { player.setX(newX); }
-            drawGameState(canvas);
+            if (newTile == null || newTile.onCollide(player, TileFace.WEST)) {
+                player.setX(newX);
+                updateMovement(newX - 1, player.getY());
+            }
         }
         if (walkBackwards) {
-            System.out.println("Walking Left");
             int newX = player.getX() - 1;
             Tile newTile = map.getTile(newX, player.getY());
-            if (newTile == null || newTile.onCollide(player, TileFace.EAST)) { player.setX(newX); }
-            drawGameState(canvas);
+            if (newTile == null || newTile.onCollide(player, TileFace.EAST)) {
+                player.setX(newX);
+                updateMovement(newX + 1, player.getY());
+            }
         }
-        System.out.println("--------------------------------------------");
+        if (goUp) {
+            int newY = player.getY() - 1;
+            Tile newTile = map.getTile(player.getX(), newY);
+            if (newTile == null || newTile.onCollide(player, TileFace.WEST)) {
+                player.setY(newY);
+                updateMovement(player.getX(), newY + 1);
+            }
+        }
+        if (goDown) {
+            int newY = player.getY() + 1;
+            Tile newTile = map.getTile(player.getX(), newY);
+            if (newTile == null || newTile.onCollide(player, TileFace.EAST)) {
+                player.setY(newY);
+                updateMovement(player.getX(), newY - 1);
+            }
+        }
+
     }
 }
