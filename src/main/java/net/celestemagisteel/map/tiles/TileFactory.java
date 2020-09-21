@@ -1,6 +1,5 @@
 package net.celestemagisteel.map.tiles;
 
-import net.celestemagisteel.map.Tile;
 import net.celestemagisteel.map.tiles.solid.BasicTile;
 
 public class TileFactory {

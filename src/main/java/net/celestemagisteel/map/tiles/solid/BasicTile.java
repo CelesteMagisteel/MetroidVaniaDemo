@@ -1,8 +1,8 @@
 package net.celestemagisteel.map.tiles.solid;
 
 import net.celestemagisteel.entity.Entity;
-import net.celestemagisteel.map.Tile;
-import net.celestemagisteel.map.TileFace;
+import net.celestemagisteel.map.tiles.Tile;
+import net.celestemagisteel.map.tiles.TileFace;
 
 public class BasicTile extends Tile {
 

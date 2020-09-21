@@ -1,11 +1,10 @@
 package net.celestemagisteel.engine;
 
 import javafx.scene.canvas.Canvas;
-import jdk.xml.internal.JdkXmlFeatures;
 import net.celestemagisteel.entity.Entity;
 import net.celestemagisteel.entity.EntityState;
-import net.celestemagisteel.map.Tile;
-import net.celestemagisteel.map.TileFace;
+import net.celestemagisteel.map.tiles.Tile;
+import net.celestemagisteel.map.tiles.TileFace;
 import net.celestemagisteel.map.TileMap;
 
 import java.util.List;

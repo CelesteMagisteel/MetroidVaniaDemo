@@ -1,8 +1,9 @@
-package net.celestemagisteel.map;
+package net.celestemagisteel.map.tiles;
 
 import javafx.scene.image.Image;
 import net.celestemagisteel.Game;
 import net.celestemagisteel.entity.Entity;
+import net.celestemagisteel.map.tiles.TileFace;
 
 import java.io.Serializable;
 

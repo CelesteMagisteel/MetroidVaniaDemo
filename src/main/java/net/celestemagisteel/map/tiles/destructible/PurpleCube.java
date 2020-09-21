@@ -2,8 +2,8 @@ package net.celestemagisteel.map.tiles.destructible;
 
 import net.celestemagisteel.entity.Entity;
 import net.celestemagisteel.map.tiles.interfaces.Destructible;
-import net.celestemagisteel.map.Tile;
-import net.celestemagisteel.map.TileFace;
+import net.celestemagisteel.map.tiles.Tile;
+import net.celestemagisteel.map.tiles.TileFace;
 
 public class PurpleCube extends Tile implements Destructible {
 

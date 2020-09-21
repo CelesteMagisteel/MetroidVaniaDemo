@@ -1,8 +1,6 @@
 package net.celestemagisteel.map.tiles;
 
 import net.celestemagisteel.entity.Entity;
-import net.celestemagisteel.map.Tile;
-import net.celestemagisteel.map.TileFace;
 
 public class BackgroundTile extends Tile {
 

@@ -1,6 +1,6 @@
 package net.celestemagisteel.map;
 
-import net.celestemagisteel.map.tiles.TileFactory;
+import net.celestemagisteel.map.tiles.Tile;
 import net.celestemagisteel.map.tiles.solid.BasicTile;
 
 import java.io.Serializable;

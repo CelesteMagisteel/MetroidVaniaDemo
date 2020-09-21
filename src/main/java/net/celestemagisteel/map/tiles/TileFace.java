@@ -1,4 +1,4 @@
-package net.celestemagisteel.map;
+package net.celestemagisteel.map.tiles;
 
 public enum TileFace {
     NORTH,

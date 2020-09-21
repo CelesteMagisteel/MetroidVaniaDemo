@@ -1,11 +1,9 @@
 package net.celestemagisteel;
 
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
@@ -14,7 +12,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import net.celestemagisteel.engine.GameState;
 import net.celestemagisteel.entity.Player;
-import net.celestemagisteel.map.Tile;
+import net.celestemagisteel.map.tiles.Tile;
 import net.celestemagisteel.map.TileMap;
 import net.celestemagisteel.map.tiles.solid.BasicTile;
 
