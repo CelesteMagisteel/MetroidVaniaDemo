@@ -89,7 +89,7 @@ public class GameState extends TimerTask {
             int newY = player.getY() - 1;
             if (newY >= 0) {
                 Tile newTile = map.getTile(player.getX(), newY);
-                if (newTile == null || newTile.onCollide(player, TileFace.WEST)) {
+                if (newTile == null || newTile.onStepOn(player, TileFace.WEST)) {
                     player.setY(newY);
                     updateMovement(player.getX(), newY + 1);
                 }
@@ -99,7 +99,7 @@ public class GameState extends TimerTask {
             int newY = player.getY() + 1;
             if (newY < TileMap.MAP_HEIGHT) {
                 Tile newTile = map.getTile(player.getX(), newY);
-                if (newTile == null || newTile.onCollide(player, TileFace.EAST)) {
+                if (newTile == null || newTile.onStepOn(player, TileFace.EAST)) {
                     player.setY(newY);
                     updateMovement(player.getX(), newY - 1);
                 }
