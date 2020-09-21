@@ -49,7 +49,7 @@ public class GameState extends TimerTask {
 
     public void updateMovement(int oldX, int oldY) {
         canvas.getGraphicsContext2D().drawImage(player.getSprite(EntityState.DEFAULT, SPRITE_SIZE, SPRITE_SIZE), player.getX() * SPRITE_SIZE, player.getY() * SPRITE_SIZE);
-        canvas.getGraphicsContext2D().drawImage(background.getTexture(SPRITE_SIZE, SPRITE_SIZE), oldX * SPRITE_SIZE, oldY * SPRITE_SIZE);
+        canvas.getGraphicsContext2D().drawImage(map.getTile(oldX, oldY) == null ?background.getTexture(SPRITE_SIZE, SPRITE_SIZE) : map.getTile(oldX, oldY).getTexture(SPRITE_SIZE, SPRITE_SIZE), oldX * SPRITE_SIZE, oldY * SPRITE_SIZE);
     }
 
 
@@ -66,34 +66,42 @@ public class GameState extends TimerTask {
     public void run() {
         if (walkForward) {
             int newX = player.getX() + 1;
-            Tile newTile = map.getTile(newX, player.getY());
-            if (newTile == null || newTile.onCollide(player, TileFace.WEST)) {
-                player.setX(newX);
-                updateMovement(newX - 1, player.getY());
+            if (newX < TileMap.MAP_WIDTH) {
+                Tile newTile = map.getTile(newX, player.getY());
+                if (newTile == null || newTile.onCollide(player, TileFace.WEST)) {
+                    player.setX(newX);
+                    updateMovement(newX - 1, player.getY());
+                }
             }
         }
         if (walkBackwards) {
             int newX = player.getX() - 1;
-            Tile newTile = map.getTile(newX, player.getY());
-            if (newTile == null || newTile.onCollide(player, TileFace.EAST)) {
-                player.setX(newX);
-                updateMovement(newX + 1, player.getY());
+            if (newX >= 0) {
+                Tile newTile = map.getTile(newX, player.getY());
+                if (newTile == null || newTile.onCollide(player, TileFace.EAST)) {
+                    player.setX(newX);
+                    updateMovement(newX + 1, player.getY());
+                }
             }
         }
         if (goUp) {
             int newY = player.getY() - 1;
-            Tile newTile = map.getTile(player.getX(), newY);
-            if (newTile == null || newTile.onCollide(player, TileFace.WEST)) {
-                player.setY(newY);
-                updateMovement(player.getX(), newY + 1);
+            if (newY >= 0) {
+                Tile newTile = map.getTile(player.getX(), newY);
+                if (newTile == null || newTile.onStepOn(player, TileFace.WEST)) {
+                    player.setY(newY);
+                    updateMovement(player.getX(), newY + 1);
+                }
             }
         }
         if (goDown) {
             int newY = player.getY() + 1;
-            Tile newTile = map.getTile(player.getX(), newY);
-            if (newTile == null || newTile.onCollide(player, TileFace.EAST)) {
-                player.setY(newY);
-                updateMovement(player.getX(), newY - 1);
+            if (newY < TileMap.MAP_HEIGHT) {
+                Tile newTile = map.getTile(player.getX(), newY);
+                if (newTile == null || newTile.onStepOn(player, TileFace.EAST)) {
+                    player.setY(newY);
+                    updateMovement(player.getX(), newY - 1);
+                }
             }
         }
 
