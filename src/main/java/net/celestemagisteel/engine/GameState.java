@@ -50,7 +50,7 @@ public class GameState extends TimerTask {
 
     public void updateMovement(int oldX, int oldY) {
         canvas.getGraphicsContext2D().drawImage(player.getSprite(EntityState.DEFAULT, SPRITE_SIZE, SPRITE_SIZE), player.getX() * SPRITE_SIZE, player.getY() * SPRITE_SIZE);
-        canvas.getGraphicsContext2D().drawImage(background.getTexture(SPRITE_SIZE, SPRITE_SIZE), oldX * SPRITE_SIZE, oldY * SPRITE_SIZE);
+        canvas.getGraphicsContext2D().drawImage(map.getTile(oldX, oldY) == null ?background.getTexture(SPRITE_SIZE, SPRITE_SIZE) : map.getTile(oldX, oldY).getTexture(SPRITE_SIZE, SPRITE_SIZE), oldX * SPRITE_SIZE, oldY * SPRITE_SIZE);
     }
 
 
