@@ -15,25 +15,30 @@ public class TileMap implements Serializable {
         this.map = map;
     }
 
-    public TileMap() { }
-
-    public Tile[][] getMap() { return map; }
-
-    public Tile getTile(int x, int y) { return map[y][x]; }
+    public TileMap() {
+    }
 
     public static TileMap generateBasicTileMap() {
         Tile[][] map = new Tile[MAP_HEIGHT][MAP_WIDTH];
 
         for (int i = 0; i < MAP_HEIGHT; i++) {
             map[i][0] = new BasicTile("wall");
-            map[i][MAP_WIDTH-1] = new BasicTile("wall");
+            map[i][MAP_WIDTH - 1] = new BasicTile("wall");
         }
 
         for (int i = 0; i < MAP_WIDTH; i++) {
             map[0][i] = new BasicTile("wall");
-            map[MAP_HEIGHT-1][i] = new BasicTile("floor");
+            map[MAP_HEIGHT - 1][i] = new BasicTile("floor");
         }
 
         return new TileMap(map);
+    }
+
+    public Tile[][] getMap() {
+        return map;
+    }
+
+    public Tile getTile(int x, int y) {
+        return map[y][x];
     }
 }

@@ -11,25 +11,35 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import net.celestemagisteel.engine.GameState;
+import net.celestemagisteel.engine.MovementHandler;
 import net.celestemagisteel.entity.Player;
-import net.celestemagisteel.map.tiles.Tile;
+import net.celestemagisteel.events.PlayerMoveEvent;
+import net.celestemagisteel.handlers.EventManager;
+import net.celestemagisteel.handlers.Handler;
 import net.celestemagisteel.map.TileMap;
+import net.celestemagisteel.map.tiles.Tile;
 import net.celestemagisteel.map.tiles.solid.BasicTile;
 
 import java.util.ArrayList;
 
 public class Game extends Application {
 
-    private static TileMap map;
+    public static final int SPRITE_SIZE = 32;
+    private static final Tile background = new BasicTile("background");
     private static Canvas canvas;
     private static GameState state;
-    private static final Tile background = new BasicTile("background");
-    public static final int SPRITE_SIZE = 32;
+    private static MovementHandler movementHandler;
+
+    private static void registerHandlers() {
+        EventManager.registerHandler(new Handler<>(PlayerMoveEvent.class));
+    }
 
     public static void main(String[] args) {
         canvas = new Canvas(TileMap.MAP_WIDTH * SPRITE_SIZE, TileMap.MAP_WIDTH * SPRITE_SIZE);
-        state = new GameState(TileMap.generateBasicTileMap(), background, new Player("player", 20, 1, TileMap.MAP_HEIGHT-2), new ArrayList<>(), canvas);
-
+        state = new GameState(TileMap.generateBasicTileMap(), background, new Player("player", 20, 1, TileMap.MAP_HEIGHT - 2), new ArrayList<>(), canvas);
+        movementHandler = new MovementHandler(state.getPlayer());
+        registerHandlers();
+        EventManager.registerEvents(state);
         launch(args);
     }
 
@@ -48,24 +58,38 @@ public class Game extends Application {
         Scene scene = new Scene(root, TileMap.MAP_WIDTH * SPRITE_SIZE, TileMap.MAP_HEIGHT * SPRITE_SIZE);
         scene.setOnKeyPressed(keyEvent -> {
             switch (keyEvent.getCode()) {
-                case D: state.startWalkForward(); break;
-                case A: state.startWalkBackwards(); break;
-                case W: state.startGoUp(); break;
-                case S: state.startGoDown(); break;
+                case D:
+                    movementHandler.startWalkForward();
+                    break;
+                case A:
+                    movementHandler.startWalkBackwards();
+                    break;
+                case W:
+                    movementHandler.startGoUp();
+                    break;
+                case S:
+                    movementHandler.startGoDown();
+                    break;
             }
         });
 
         scene.setOnKeyReleased(event -> {
             switch (event.getCode()) {
-                case D: state.stopWalkForward(); break;
-                case A: state.stopWalkBackwards(); break;
-                case W: state.stopGoUp(); break;
-                case S: state.stopGoDown(); break;
+                case D:
+                    movementHandler.stopWalkForward();
+                    break;
+                case A:
+                    movementHandler.stopWalkBackwards();
+                    break;
+                case W:
+                    movementHandler.stopGoUp();
+                    break;
+                case S:
+                    movementHandler.stopGoDown();
+                    break;
             }
         });
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-
-
 }

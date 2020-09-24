@@ -5,10 +5,10 @@ import net.celestemagisteel.map.Location;
 
 public class PlayerMoveEvent implements Event {
 
-    private boolean cancelled;
-    private Entity player;
+    private final Entity player;
     private Location from;
     private Location to;
+    private boolean cancelled = false;
 
     public PlayerMoveEvent(Entity player, Location oldLocation, Location newLocation) {
         this.from = oldLocation;
@@ -24,12 +24,12 @@ public class PlayerMoveEvent implements Event {
         return from;
     }
 
-    public Location getTo() {
-        return to;
-    }
-
     public void setFrom(Location from) {
         this.from = from;
+    }
+
+    public Location getTo() {
+        return to;
     }
 
     public void setTo(Location to) {
@@ -40,11 +40,10 @@ public class PlayerMoveEvent implements Event {
         return cancelled;
     }
 
-    public void setCancelled(boolean cancelled) {
-        this.cancelled = cancelled;
+    public void setCancelled(boolean cancel) {
+        cancelled = cancel;
     }
 
-    @Override
     public void finalProcessing() {
 
     }

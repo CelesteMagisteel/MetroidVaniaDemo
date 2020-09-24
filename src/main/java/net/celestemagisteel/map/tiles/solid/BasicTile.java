@@ -14,9 +14,4 @@ public class BasicTile extends Tile {
     public boolean onCollide(Entity entity, TileFace face) {
         return false;
     }
-
-    @Override
-    public boolean onStepOn(Entity entity, TileFace face) {
-        return false;
-    }
 }
