@@ -9,7 +9,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class MovementHandler extends TimerTask {
+public class ControlHandler extends TimerTask {
 
     private boolean walkForward = false;
     private boolean walkBackwards = false;
@@ -17,7 +17,7 @@ public class MovementHandler extends TimerTask {
     private boolean goDown = false;
     private final Entity entity;
 
-    public MovementHandler(Entity entity) {
+    public ControlHandler(Entity entity) {
         new Timer().scheduleAtFixedRate(this, 0, 1000 / 30);
         this.entity = entity;
     }
@@ -56,22 +56,14 @@ public class MovementHandler extends TimerTask {
 
     @Override
     public void run() {
-        int x = entity.getX();
-        int y = entity.getY();
-        int newX = x;
-        int newY = y;
-        if (walkForward) {
-            newX++;
-        }
-        if (walkBackwards) {
-            newX--;
-        }
-        if (goUp) {
-            newY--;
-        }
-        if (goDown) {
-            newY++;
-        }
+        int x = entity.getX(); int y = entity.getY();
+        int newX = x; int newY = y;
+
+        if (walkForward) newX++;
+        if (walkBackwards) newX--;
+        if (goUp) newY--;
+        if (goDown) newY++;
+
         if (!(newX == x && newY == y)) {
             try {
                 EventManager.raiseEvent(new PlayerMoveEvent(entity, new Location(x, y), new Location(newX, newY)));

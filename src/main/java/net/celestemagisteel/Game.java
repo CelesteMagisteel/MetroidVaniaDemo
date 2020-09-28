@@ -11,7 +11,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import net.celestemagisteel.engine.GameState;
-import net.celestemagisteel.engine.MovementHandler;
+import net.celestemagisteel.engine.ControlHandler;
 import net.celestemagisteel.entity.Player;
 import net.celestemagisteel.events.PlayerMoveEvent;
 import net.celestemagisteel.handlers.EventManager;
@@ -28,7 +28,7 @@ public class Game extends Application {
     private static final Tile background = new BasicTile("background");
     private static Canvas canvas;
     private static GameState state;
-    private static MovementHandler movementHandler;
+    private static ControlHandler controlHandler;
 
     private static void registerHandlers() {
         EventManager.registerHandler(new Handler<>(PlayerMoveEvent.class));
@@ -37,7 +37,7 @@ public class Game extends Application {
     public static void main(String[] args) {
         canvas = new Canvas(TileMap.MAP_WIDTH * SPRITE_SIZE, TileMap.MAP_WIDTH * SPRITE_SIZE);
         state = new GameState(TileMap.generateBasicTileMap(), background, new Player("player", 20, 1, TileMap.MAP_HEIGHT - 2), new ArrayList<>(), canvas);
-        movementHandler = new MovementHandler(state.getPlayer());
+        controlHandler = new ControlHandler(state.getPlayer());
         registerHandlers();
         EventManager.registerEvents(state);
         launch(args);
@@ -59,16 +59,16 @@ public class Game extends Application {
         scene.setOnKeyPressed(keyEvent -> {
             switch (keyEvent.getCode()) {
                 case D:
-                    movementHandler.startWalkForward();
+                    controlHandler.startWalkForward();
                     break;
                 case A:
-                    movementHandler.startWalkBackwards();
+                    controlHandler.startWalkBackwards();
                     break;
                 case W:
-                    movementHandler.startGoUp();
+                    controlHandler.startGoUp();
                     break;
                 case S:
-                    movementHandler.startGoDown();
+                    controlHandler.startGoDown();
                     break;
             }
         });
@@ -76,16 +76,16 @@ public class Game extends Application {
         scene.setOnKeyReleased(event -> {
             switch (event.getCode()) {
                 case D:
-                    movementHandler.stopWalkForward();
+                    controlHandler.stopWalkForward();
                     break;
                 case A:
-                    movementHandler.stopWalkBackwards();
+                    controlHandler.stopWalkBackwards();
                     break;
                 case W:
-                    movementHandler.stopGoUp();
+                    controlHandler.stopGoUp();
                     break;
                 case S:
-                    movementHandler.stopGoDown();
+                    controlHandler.stopGoDown();
                     break;
             }
         });
