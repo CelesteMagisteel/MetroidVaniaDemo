@@ -6,6 +6,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class EventManager {
 
     private static final Map<Class<? extends Event>, Handler> handlers = new HashMap<>();
@@ -15,13 +16,11 @@ public class EventManager {
     }
 
     public static void registerEvents(Listener listener) {
-        for (Class<? extends Event> event : handlers.keySet()) {
-            System.out.println("Test");
-            handlers.get(event).registerEvents(listener);
-        }
+        for (Class<? extends Event> event : handlers.keySet()) { handlers.get(event).registerEvents(listener); }
     }
 
     public static void raiseEvent(Event event) throws InvocationTargetException, IllegalAccessException {
         handlers.get(event.getClass()).raiseEvent(event);
+        event.finalProcessing();
     }
 }

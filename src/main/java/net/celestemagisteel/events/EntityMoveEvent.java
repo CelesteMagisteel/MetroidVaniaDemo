@@ -3,21 +3,21 @@ package net.celestemagisteel.events;
 import net.celestemagisteel.entity.Entity;
 import net.celestemagisteel.map.Location;
 
-public class PlayerMoveEvent implements Event {
+public class EntityMoveEvent implements Event {
 
-    private final Entity player;
+    private final Entity entity;
     private Location from;
     private Location to;
     private boolean cancelled = false;
 
-    public PlayerMoveEvent(Entity player, Location oldLocation, Location newLocation) {
+    public EntityMoveEvent(Entity entity, Location oldLocation, Location newLocation) {
         this.from = oldLocation;
         this.to = newLocation;
-        this.player = player;
+        this.entity = entity;
     }
 
-    public Entity getPlayer() {
-        return player;
+    public Entity getEntity() {
+        return entity;
     }
 
     public Location getFrom() {
@@ -44,7 +44,5 @@ public class PlayerMoveEvent implements Event {
         cancelled = cancel;
     }
 
-    public void finalProcessing() {
-
-    }
+    public void finalProcessing() {}
 }

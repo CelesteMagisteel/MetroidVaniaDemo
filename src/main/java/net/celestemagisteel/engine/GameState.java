@@ -3,7 +3,10 @@ package net.celestemagisteel.engine;
 import javafx.scene.canvas.Canvas;
 import net.celestemagisteel.entity.Entity;
 import net.celestemagisteel.entity.EntityState;
-import net.celestemagisteel.events.PlayerMoveEvent;
+import net.celestemagisteel.entity.Player;
+import net.celestemagisteel.entity.Projectile;
+import net.celestemagisteel.events.EntityFireProjectileEvent;
+import net.celestemagisteel.events.EntityMoveEvent;
 import net.celestemagisteel.handlers.EventListener;
 import net.celestemagisteel.handlers.Listener;
 import net.celestemagisteel.map.Location;
@@ -46,11 +49,11 @@ public class GameState implements Listener {
         canvas.getGraphicsContext2D().drawImage(player.getSprite(EntityState.DEFAULT, SPRITE_SIZE, SPRITE_SIZE), player.getX() * SPRITE_SIZE, player.getY() * SPRITE_SIZE);
     }
 
-    public void updateMovement(Location oldLocation) {
-        canvas.getGraphicsContext2D().drawImage(player.getSprite(EntityState.DEFAULT, SPRITE_SIZE, SPRITE_SIZE), player.getX() * SPRITE_SIZE, player.getY() * SPRITE_SIZE);
+    public void redrawFrameFollowingMovement(Entity entity, Location oldLocation) {
         canvas.getGraphicsContext2D().drawImage(map.getTile(oldLocation.getX(), oldLocation.getY()) == null ?
                         background.getTexture(SPRITE_SIZE, SPRITE_SIZE) : map.getTile(oldLocation.getX(), oldLocation.getY()).getTexture(SPRITE_SIZE, SPRITE_SIZE),
                 oldLocation.getX() * SPRITE_SIZE, oldLocation.getY() * SPRITE_SIZE);
+        if (entity != null) { canvas.getGraphicsContext2D().drawImage(entity.getSprite(EntityState.DEFAULT, SPRITE_SIZE, SPRITE_SIZE), entity.getX() * SPRITE_SIZE, entity.getY() * SPRITE_SIZE);  }
     }
 
     public TileMap getMap() {
@@ -81,10 +84,30 @@ public class GameState implements Listener {
     }
 
     @EventListener
-    public void onPlayerMove(PlayerMoveEvent event) {
+    public void onPlayerMove(EntityMoveEvent event) {
+        if (!(event.getEntity() instanceof Player)) return;
         if (!confirmLocation(event.getTo())) { event.setCancelled(true); return; }
         player.setX(event.getTo().getX());
         player.setY(event.getTo().getY());
-        updateMovement(event.getFrom());
+        redrawFrameFollowingMovement(event.getEntity(), event.getFrom());
+    }
+
+    @EventListener
+    public void onProjectileMove(EntityMoveEvent event) {
+        if (!(event.getEntity() instanceof Projectile)) return;
+        if (!confirmLocation(event.getTo())) {
+            entities.remove(event.getEntity());
+            redrawFrameFollowingMovement(null, event.getFrom());
+        } else {
+            event.getEntity().setX(event.getTo().getX());
+            event.getEntity().setY(event.getTo().getY());
+            redrawFrameFollowingMovement(event.getEntity(), event.getFrom());
+        }
+    }
+
+    @EventListener
+    public void onProjectileFire(EntityFireProjectileEvent event) {
+        entities.add(event.getProjectile());
+        redrawFrameFollowingMovement(event.getProjectile(), new Location(0,0));
     }
 }

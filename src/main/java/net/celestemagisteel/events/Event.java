@@ -6,4 +6,5 @@ public interface Event {
 
     void setCancelled(boolean cancelled);
 
+    void finalProcessing();
 }

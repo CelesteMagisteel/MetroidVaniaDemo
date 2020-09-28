@@ -13,7 +13,8 @@ import javafx.stage.Stage;
 import net.celestemagisteel.engine.GameState;
 import net.celestemagisteel.engine.ControlHandler;
 import net.celestemagisteel.entity.Player;
-import net.celestemagisteel.events.PlayerMoveEvent;
+import net.celestemagisteel.events.EntityFireProjectileEvent;
+import net.celestemagisteel.events.EntityMoveEvent;
 import net.celestemagisteel.handlers.EventManager;
 import net.celestemagisteel.handlers.Handler;
 import net.celestemagisteel.map.TileMap;
@@ -31,7 +32,8 @@ public class Game extends Application {
     private static ControlHandler controlHandler;
 
     private static void registerHandlers() {
-        EventManager.registerHandler(new Handler<>(PlayerMoveEvent.class));
+        EventManager.registerHandler(new Handler<>(EntityMoveEvent.class));
+        EventManager.registerHandler(new Handler<>(EntityFireProjectileEvent.class));
     }
 
     public static void main(String[] args) {
@@ -70,6 +72,9 @@ public class Game extends Application {
                 case S:
                     controlHandler.startGoDown();
                     break;
+                case SPACE:
+                    controlHandler.startFiring();
+                    break;
             }
         });
 
@@ -86,6 +91,9 @@ public class Game extends Application {
                     break;
                 case S:
                     controlHandler.stopGoDown();
+                    break;
+                case SPACE:
+                    controlHandler.stopFiring();
                     break;
             }
         });
