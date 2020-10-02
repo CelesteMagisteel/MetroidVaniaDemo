@@ -4,14 +4,11 @@ import net.celestemagisteel.events.Event;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Handler<T extends Event> {
 
-    private final Map<Listener, List<Method>> calls = new HashMap<>();
+    private final List<EventListenerStorage> calls = new ArrayList<>();
     private final Class<T> event;
 
     public Handler(Class<T> event) {
@@ -23,30 +20,28 @@ public class Handler<T extends Event> {
     }
 
     public void registerEvents(Listener listener) {
-        calls.put(listener, getEventListeners(listener.getClass()));
+        calls.addAll(getEventListeners(listener));
+        Collections.sort(calls);
     }
 
     public void raiseEvent(T raisedEvent) throws InvocationTargetException, IllegalAccessException {
-        for (Listener listener : calls.keySet()) {
-            for (Method method : calls.get(listener)) {
-                method.invoke(listener, raisedEvent);
-                if (raisedEvent.isCancelled()) break;
-            }
+        for (EventListenerStorage eventListenerStorage : calls) {
+            eventListenerStorage.getListenerMethod().invoke(eventListenerStorage.getListener(), raisedEvent);
             if (raisedEvent.isCancelled()) break;
         }
+        raisedEvent.finalProcessing();
     }
 
-    private List<Method> getEventListeners(Class<?> type) {
-        final List<Method> methods = new ArrayList<>();
+    private List<EventListenerStorage> getEventListeners(Listener listener) {
+        final List<EventListenerStorage> methods = new ArrayList<>();
 
-        for (final Method method : type.getDeclaredMethods()) {
+        for (final Method method : listener.getClass().getDeclaredMethods()) {
             if (method.isAnnotationPresent(EventListener.class)) {
                 if (method.getParameterTypes()[0] == event) {
-                    methods.add(method);
+                    methods.add(new EventListenerStorage(method.getAnnotation(EventListener.class).priority(), method, listener));
                 }
             }
         }
-
         return methods;
     }
 
