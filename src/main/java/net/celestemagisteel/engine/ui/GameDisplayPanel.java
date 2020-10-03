@@ -40,6 +40,10 @@ public class GameDisplayPanel extends JPanel {
         for (Entity entity : entityList) {
             graphics.drawImage(entity.getSprite(EntityState.DEFAULT, SPRITE_SIZE, SPRITE_SIZE), entity.getX() * SPRITE_SIZE, entity.getY() * SPRITE_SIZE, null);
         }
-        graphics.drawImage(gameState.getPlayer().getSprite(EntityState.DEFAULT, SPRITE_SIZE, SPRITE_SIZE), gameState.getPlayer().getX() * SPRITE_SIZE, gameState.getPlayer().getY() * SPRITE_SIZE, null);
+        int spriteHeight = gameState.getPlayer().isCrouching() ? SPRITE_SIZE / 2 : SPRITE_SIZE;
+        graphics.drawImage(gameState.getPlayer().getSprite(EntityState.DEFAULT, SPRITE_SIZE, spriteHeight),
+                gameState.getPlayer().getX() * SPRITE_SIZE,
+                ((gameState.getPlayer().getY()+1) * SPRITE_SIZE) - spriteHeight,
+                null);
     }
 }

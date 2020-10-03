@@ -64,7 +64,7 @@ public class AwtStart extends TimerTask {
                         controlHandler.startGoUp();
                         break;
                     case VK_S:
-                        controlHandler.startGoDown();
+                        controlHandler.startCrouch();
                         break;
                     case VK_SPACE:
                         controlHandler.startFiring();
@@ -86,7 +86,7 @@ public class AwtStart extends TimerTask {
                         controlHandler.stopGoUp();
                         break;
                     case VK_S:
-                        controlHandler.stopGoDown();
+                        controlHandler.stopCrouch();
                         break;
                     case VK_SPACE:
                         controlHandler.stopFiring();

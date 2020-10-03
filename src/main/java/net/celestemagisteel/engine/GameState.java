@@ -16,11 +16,11 @@ import java.util.List;
 public class GameState implements Listener {
 
     private final TileMap map;
-    private final Entity player;
+    private final Player player;
     private final List<Entity> entities;
 
 
-    public GameState(TileMap map, Entity player, List<Entity> entities) {
+    public GameState(TileMap map, Player player, List<Entity> entities) {
         this.map = map;
         this.player = player;
         this.entities = entities;
@@ -30,7 +30,7 @@ public class GameState implements Listener {
         return map;
     }
 
-    public Entity getPlayer() {
+    public Player getPlayer() {
         return player;
     }
 

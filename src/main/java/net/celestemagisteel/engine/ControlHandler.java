@@ -1,6 +1,7 @@
 package net.celestemagisteel.engine;
 
 import net.celestemagisteel.entity.Entity;
+import net.celestemagisteel.entity.Player;
 import net.celestemagisteel.entity.PurpleProjectile;
 import net.celestemagisteel.events.EntityFireProjectileEvent;
 import net.celestemagisteel.events.EntityMoveEvent;
@@ -21,10 +22,10 @@ public class ControlHandler extends TimerTask {
     private boolean goUp = false;
     private boolean goDown = false;
     private boolean fireProjectile = false;
-    private Entity entity;
+    private Player entity;
     private Timer fireTimer = new Timer();
 
-    public ControlHandler(Entity entity) {
+    public ControlHandler(Player entity) {
         startMovementTimer(entity);
         this.entity = entity;
     }
@@ -101,12 +102,12 @@ public class ControlHandler extends TimerTask {
         goUp = false;
     }
 
-    public void startGoDown() {
-        goDown = true;
+    public void startCrouch() {
+        entity.crouch();
     }
 
-    public void stopGoDown() {
-        goDown = false;
+    public void stopCrouch() {
+        entity.uncrouch();
     }
 
     public void startFiring() {

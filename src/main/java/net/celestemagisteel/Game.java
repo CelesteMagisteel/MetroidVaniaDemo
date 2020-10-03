@@ -79,7 +79,7 @@ public class Game extends Application {
                     controlHandler.startGoUp();
                     break;
                 case S:
-                    controlHandler.startGoDown();
+                    controlHandler.startCrouch();
                     break;
                 case SPACE:
                     controlHandler.startFiring();
@@ -99,7 +99,7 @@ public class Game extends Application {
                     controlHandler.stopGoUp();
                     break;
                 case S:
-                    controlHandler.stopGoDown();
+                    controlHandler.stopCrouch();
                     break;
                 case SPACE:
                     controlHandler.stopFiring();
