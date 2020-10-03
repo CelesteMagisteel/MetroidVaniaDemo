@@ -1,34 +1,39 @@
 package net.celestemagisteel.entity;
 
-import javafx.scene.image.Image;
-import net.celestemagisteel.Game;
+import net.celestemagisteel.AwtStart;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class Entity {
 
     private final String sprite;
+    private final Map<EntityState, Image> stateImageMap = new HashMap<>();
     private int maxHealth;
     private int health;
     private int xCoordinate;
     private int yCoordinate;
 
-    public Entity(String sprite, int maxHealth) {
-        this.sprite = sprite;
-        this.maxHealth = maxHealth;
-        health = maxHealth;
-        xCoordinate = 0;
-        yCoordinate = 0;
+    public Entity(String sprite, int maxHealth) throws IOException {
+        this(sprite, maxHealth, 0, 0);
     }
 
-    public Entity(String sprite, int maxHealth, int x, int y) {
+    public Entity(String sprite, int maxHealth, int x, int y) throws IOException {
         this.sprite = sprite;
         this.maxHealth = maxHealth;
         health = maxHealth;
         xCoordinate = x;
         yCoordinate = y;
+        for (EntityState state : EntityState.values()) {
+            stateImageMap.put(state, ImageIO.read(AwtStart.class.getResourceAsStream("sprite/" + sprite + "/" + state + ".png")));
+        }
     }
 
     public Image getSprite(EntityState state, int width, int height) {
-        return new Image(Game.class.getResourceAsStream("./sprite/" + sprite + "/" + state + ".png"), width, height, false, false);
+        return stateImageMap.get(state).getScaledInstance(width, height, Image.SCALE_DEFAULT);
     }
 
     public int getMaxHealth() {

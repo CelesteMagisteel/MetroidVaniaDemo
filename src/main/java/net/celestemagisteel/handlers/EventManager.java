@@ -16,7 +16,9 @@ public class EventManager {
     }
 
     public static void registerEvents(Listener listener) {
-        for (Class<? extends Event> event : handlers.keySet()) { handlers.get(event).registerEvents(listener); }
+        for (Class<? extends Event> event : handlers.keySet()) {
+            handlers.get(event).registerEvents(listener);
+        }
     }
 
     public static void raiseEvent(Event event) throws InvocationTargetException, IllegalAccessException {

@@ -44,5 +44,6 @@ public class EntityMoveEvent implements Event {
         cancelled = cancel;
     }
 
-    public void finalProcessing() {}
+    public void finalProcessing() {
+    }
 }

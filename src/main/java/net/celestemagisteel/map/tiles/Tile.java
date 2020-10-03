@@ -1,25 +1,23 @@
 package net.celestemagisteel.map.tiles;
 
-import javafx.scene.image.Image;
 import net.celestemagisteel.Game;
 import net.celestemagisteel.entity.Entity;
 
+import javax.imageio.ImageIO;
+import java.io.IOException;
 import java.io.Serializable;
 
 public abstract class Tile implements Serializable {
 
-    private final String texture;
+    private final java.awt.Image texture;
 
-    public Tile(String texture) {
-        this.texture = texture;
+    public Tile(String texture) throws IOException {
+        this.texture = ImageIO.read(Game.class.getResourceAsStream("block/" + texture + ".png"));
     }
 
-    public Image getTexture(int width, int height) {
-        return new Image(Game.class.getResourceAsStream("block/" + texture + ".png"), width, height, false, false);
-    }
 
-    public char getShortCode() {
-        return texture.charAt(0);
+    public java.awt.Image getTexture(int width, int height) {
+        return texture.getScaledInstance(width, height, java.awt.Image.SCALE_DEFAULT);
     }
 
     /**

@@ -5,8 +5,8 @@ import net.celestemagisteel.entity.Projectile;
 
 public class EntityFireProjectileEvent implements Event {
 
-    private boolean cancelled = false;
     private final Entity whoFired;
+    private boolean cancelled = false;
     private Entity projectile;
 
     public EntityFireProjectileEvent(Entity whoFired, Projectile projectile) {
@@ -37,5 +37,6 @@ public class EntityFireProjectileEvent implements Event {
     }
 
     @Override
-    public void finalProcessing() {}
+    public void finalProcessing() {
+    }
 }

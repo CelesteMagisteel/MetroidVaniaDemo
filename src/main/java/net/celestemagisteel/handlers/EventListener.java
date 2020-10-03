@@ -6,5 +6,5 @@ import java.lang.annotation.RetentionPolicy;
 public @Retention(RetentionPolicy.RUNTIME)
 @interface EventListener {
 
-    public ListenerPriority priority() default ListenerPriority.NORMAL;
+    ListenerPriority priority() default ListenerPriority.NORMAL;
 }
