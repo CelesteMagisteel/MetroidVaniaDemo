@@ -15,14 +15,13 @@ import java.util.TimerTask;
 
 public class ControlHandler extends TimerTask {
 
-    private static final long MOVEMENT_TICK_SPEED = 1000 / 30;
+    public static final long MOVEMENT_TICK_SPEED = 1000 / 30;
     private static final long PROJECTILE_FIRE_SPEED = 1000 / 5;
     private boolean walkForward = false;
     private boolean walkBackwards = false;
     private boolean goUp = false;
-    private boolean goDown = false;
     private boolean fireProjectile = false;
-    private Player entity;
+    private final Player entity;
     private Timer fireTimer = new Timer();
 
     public ControlHandler(Player entity) {
@@ -48,7 +47,6 @@ public class ControlHandler extends TimerTask {
         if (walkForward) newX++;
         if (walkBackwards) newX--;
         if (goUp) newY--;
-        if (goDown) newY++;
 
         if (!(newX == x && newY == y)) {
             try {
@@ -94,11 +92,11 @@ public class ControlHandler extends TimerTask {
         walkBackwards = false;
     }
 
-    public void startGoUp() {
+    public void jump() {
         goUp = true;
     }
 
-    public void stopGoUp() {
+    public void cancelJump() {
         goUp = false;
     }
 

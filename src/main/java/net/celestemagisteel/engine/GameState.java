@@ -6,14 +6,17 @@ import net.celestemagisteel.entity.Projectile;
 import net.celestemagisteel.events.EntityFireProjectileEvent;
 import net.celestemagisteel.events.EntityMoveEvent;
 import net.celestemagisteel.handlers.EventListener;
+import net.celestemagisteel.handlers.EventManager;
 import net.celestemagisteel.handlers.Listener;
 import net.celestemagisteel.map.Location;
 import net.celestemagisteel.map.TileMap;
 import net.celestemagisteel.map.tiles.TileFace;
+import sun.util.resources.cldr.ak.LocaleNames_ak;
 
-import java.util.List;
+import java.lang.reflect.InvocationTargetException;
+import java.util.*;
 
-public class GameState implements Listener {
+public class GameState extends TimerTask implements Listener {
 
     private final TileMap map;
     private final Player player;
@@ -24,6 +27,7 @@ public class GameState implements Listener {
         this.map = map;
         this.player = player;
         this.entities = entities;
+        new Timer().scheduleAtFixedRate(this, 0, ControlHandler.MOVEMENT_TICK_SPEED);
     }
 
     public TileMap getMap() {
@@ -74,5 +78,29 @@ public class GameState implements Listener {
     @EventListener
     public void onProjectileFire(EntityFireProjectileEvent event) {
         entities.add(event.getProjectile());
+    }
+
+    @Override
+    public void run() {
+        for (Entity entity : new ArrayList<>(entities)) {
+            int y = entity.getY() + 1;
+            while (confirmLocation(new Location(entity.getX(), y))) {
+                y++;
+            }
+            try {
+                EventManager.raiseEvent(new EntityMoveEvent(entity, new Location(entity.getX(), entity.getY()), new Location(entity.getX(), y-1)));
+            } catch (InvocationTargetException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+        int y = player.getY() + 1;
+        while (confirmLocation(new Location(player.getX(), y))) {
+            y++;
+        }
+        try {
+            EventManager.raiseEvent(new EntityMoveEvent(player, new Location(player.getX(), player.getY()), new Location(player.getX(), y-1)));
+        } catch (InvocationTargetException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
 }

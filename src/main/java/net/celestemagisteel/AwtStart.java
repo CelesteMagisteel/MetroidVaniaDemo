@@ -61,7 +61,7 @@ public class AwtStart extends TimerTask {
                         controlHandler.startWalkBackwards();
                         break;
                     case VK_W:
-                        controlHandler.startGoUp();
+                        controlHandler.jump();
                         break;
                     case VK_S:
                         controlHandler.startCrouch();
@@ -83,7 +83,7 @@ public class AwtStart extends TimerTask {
                         controlHandler.stopWalkBackwards();
                         break;
                     case VK_W:
-                        controlHandler.stopGoUp();
+                        controlHandler.cancelJump();
                         break;
                     case VK_S:
                         controlHandler.stopCrouch();

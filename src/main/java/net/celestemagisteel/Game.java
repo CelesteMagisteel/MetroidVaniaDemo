@@ -76,7 +76,7 @@ public class Game extends Application {
                     controlHandler.startWalkBackwards();
                     break;
                 case W:
-                    controlHandler.startGoUp();
+                    controlHandler.jump();
                     break;
                 case S:
                     controlHandler.startCrouch();
@@ -96,7 +96,7 @@ public class Game extends Application {
                     controlHandler.stopWalkBackwards();
                     break;
                 case W:
-                    controlHandler.stopGoUp();
+                    controlHandler.cancelJump();
                     break;
                 case S:
                     controlHandler.stopCrouch();
