@@ -9,15 +9,21 @@ import java.io.Serializable;
 
 public abstract class Tile implements Serializable {
 
-    private final java.awt.Image texture;
+    private transient java.awt.Image texture;
+    private final String textureName;
 
     public Tile(String texture) throws IOException {
+        this.textureName = texture;
         this.texture = ImageIO.read(Game.class.getResourceAsStream("block/" + texture + ".png"));
     }
 
 
     public java.awt.Image getTexture(int width, int height) {
         return texture.getScaledInstance(width, height, java.awt.Image.SCALE_DEFAULT);
+    }
+
+    public void loadTexture() throws IOException {
+        this.texture = ImageIO.read(Game.class.getResourceAsStream("block/" + textureName + ".png"));
     }
 
     /**

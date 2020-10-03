@@ -14,14 +14,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.Timer;
 
 import static java.awt.event.KeyEvent.*;
 import static net.celestemagisteel.Game.SPRITE_SIZE;
-import static net.celestemagisteel.map.TileMap.MAP_HEIGHT;
-import static net.celestemagisteel.map.TileMap.MAP_WIDTH;
+import static net.celestemagisteel.map.TileMap.*;
 
 public class AwtStart extends TimerTask {
 
@@ -35,9 +35,9 @@ public class AwtStart extends TimerTask {
         EventManager.registerHandler(new Handler<>(EntityFireProjectileEvent.class));
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
         registerHandlers();
-        state = new GameState(TileMap.generateBasicTileMap(), new Player("player", 20, 1, TileMap.MAP_HEIGHT - 2), new ArrayList<>());
+        state = new GameState(TileMap.deserialize(new File(AwtStart.class.getResource("level/default.map").getFile())), new Player("player", 20, 1, TileMap.MAP_HEIGHT - 2), new ArrayList<>());
         controlHandler = new ControlHandler(state.getPlayer());
         EventManager.registerEvents(state);
         frame = new JFrame("My Awesome Game!");
