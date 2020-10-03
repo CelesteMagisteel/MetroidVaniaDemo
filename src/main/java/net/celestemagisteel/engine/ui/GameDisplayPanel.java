@@ -7,6 +7,7 @@ import net.celestemagisteel.map.TileMap;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 import static net.celestemagisteel.Game.SPRITE_SIZE;
 
@@ -34,8 +35,8 @@ public class GameDisplayPanel extends JPanel {
                 graphics.drawImage(image, x * SPRITE_SIZE, y * SPRITE_SIZE, null);
             }
         }
-        // TODO: Find workaround for concurrent modification exception if repainting whilst firing
-        for (Entity entity : gameState.getEntities()) {
+        java.util.List<Entity> entityList = new ArrayList<>(gameState.getEntities());
+        for (Entity entity : entityList) {
             graphics.drawImage(entity.getSprite(EntityState.DEFAULT, SPRITE_SIZE, SPRITE_SIZE), entity.getX() * SPRITE_SIZE, entity.getY() * SPRITE_SIZE, null);
         }
         graphics.drawImage(gameState.getPlayer().getSprite(EntityState.DEFAULT, SPRITE_SIZE, SPRITE_SIZE), gameState.getPlayer().getX() * SPRITE_SIZE, gameState.getPlayer().getY() * SPRITE_SIZE, null);
