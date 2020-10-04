@@ -48,6 +48,9 @@ public class TileMap implements Serializable {
         for (int i = 0; i < MAP_WIDTH; i++) {
             map[0][i] = wall;
             map[MAP_HEIGHT - 1][i] = floor;
+            if (i % 3 == 1) {
+                map[MAP_HEIGHT - 2][i] = floor;
+            }
         }
 
         return new TileMap(map, TileFactory.generateBackgroundTile());

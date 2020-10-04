@@ -37,7 +37,9 @@ public class AwtStart extends TimerTask {
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
         registerHandlers();
-        state = new GameState(TileMap.deserialize(new File(AwtStart.class.getResource("level/default.map").getFile())), new Player("player", 20, 1, TileMap.MAP_HEIGHT - 2), new ArrayList<>());
+        //TileMap tileMap = TileMap.deserialize(new File(AwtStart.class.getResource("level/default.map").getFile()));
+        TileMap tileMap = TileMap.generateBasicTileMap();
+        state = new GameState(tileMap, new Player("player", 20, 1, TileMap.MAP_HEIGHT - 2), new ArrayList<>());
         controlHandler = new ControlHandler(state.getPlayer());
         EventManager.registerEvents(state);
         frame = new JFrame("My Awesome Game!");

@@ -15,7 +15,7 @@ import java.util.TimerTask;
 
 public class ControlHandler extends TimerTask {
 
-    public static final long MOVEMENT_TICK_SPEED = 1000 / 30;
+    public static final long MOVEMENT_TICK_SPEED = 1000 / 15;
     private static final long PROJECTILE_FIRE_SPEED = 1000 / 5;
     private boolean walkForward = false;
     private boolean walkBackwards = false;
@@ -46,7 +46,7 @@ public class ControlHandler extends TimerTask {
 
         if (walkForward) newX++;
         if (walkBackwards) newX--;
-        if (goUp) newY--;
+        if (goUp && entity.isOnGround()) newY--;
 
         if (!(newX == x && newY == y)) {
             try {

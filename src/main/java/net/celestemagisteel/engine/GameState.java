@@ -60,6 +60,8 @@ public class GameState extends TimerTask implements Listener {
             return;
         }
 
+        event.getEntity().setOnGround(!confirmLocation(new Location(event.getTo().getX(), event.getTo().getY()+1)));
+
         player.setX(event.getTo().getX());
         player.setY(event.getTo().getY());
     }
@@ -84,21 +86,19 @@ public class GameState extends TimerTask implements Listener {
     public void run() {
         for (Entity entity : new ArrayList<>(entities)) {
             int y = entity.getY() + 1;
-            while (confirmLocation(new Location(entity.getX(), y))) {
-                y++;
-            }
             try {
-                EventManager.raiseEvent(new EntityMoveEvent(entity, new Location(entity.getX(), entity.getY()), new Location(entity.getX(), y-1)));
+                if (entity.obeysGravity() && confirmLocation(new Location(entity.getX(), y)))
+                    EventManager.raiseEvent(new EntityMoveEvent(entity, new Location(entity.getX(), entity.getY()), new Location(entity.getX(), y)));
+                else player.setOnGround(true);
             } catch (InvocationTargetException | IllegalAccessException e) {
                 e.printStackTrace();
             }
         }
         int y = player.getY() + 1;
-        while (confirmLocation(new Location(player.getX(), y))) {
-            y++;
-        }
         try {
-            EventManager.raiseEvent(new EntityMoveEvent(player, new Location(player.getX(), player.getY()), new Location(player.getX(), y-1)));
+            if (player.obeysGravity() && confirmLocation(new Location(player.getX(), y)))
+                EventManager.raiseEvent(new EntityMoveEvent(player, new Location(player.getX(), player.getY()), new Location(player.getX(), y)));
+            else player.setOnGround(true);
         } catch (InvocationTargetException | IllegalAccessException e) {
             e.printStackTrace();
         }

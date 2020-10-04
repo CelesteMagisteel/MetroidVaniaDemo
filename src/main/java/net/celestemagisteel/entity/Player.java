@@ -12,7 +12,12 @@ public class Player extends Entity {
     public Player(String sprite, int maxHealth, int x, int y) throws IOException {
         super(sprite, maxHealth, x, y);
     }
-    
+
+    @Override
+    public boolean obeysGravity() {
+        return true;
+    }
+
     public void crouch() { this.crouch = true; }
 
     public void uncrouch() { this.crouch = false; }

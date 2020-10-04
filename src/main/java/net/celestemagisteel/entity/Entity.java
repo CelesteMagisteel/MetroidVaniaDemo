@@ -16,6 +16,7 @@ public abstract class Entity {
     private int health;
     private int xCoordinate;
     private int yCoordinate;
+    private boolean isOnGround;
 
     public Entity(String sprite, int maxHealth) throws IOException {
         this(sprite, maxHealth, 0, 0);
@@ -52,6 +53,8 @@ public abstract class Entity {
         this.health = health;
     }
 
+    public abstract boolean obeysGravity();
+
     public int getX() {
         return xCoordinate;
     }
@@ -66,6 +69,12 @@ public abstract class Entity {
 
     public void setY(int yCoordinate) {
         this.yCoordinate = yCoordinate;
+    }
+
+    public void setOnGround(boolean onGround) { this.isOnGround = true; }
+
+    public boolean isOnGround() {
+        return isOnGround;
     }
 }
 

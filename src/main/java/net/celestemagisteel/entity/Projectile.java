@@ -10,4 +10,9 @@ public abstract class Projectile extends Entity {
     public Projectile(String sprite, int maxHealth, int x, int y) throws IOException {
         super(sprite, maxHealth, x, y);
     }
+
+    @Override
+    public boolean obeysGravity() {
+        return false;
+    }
 }
