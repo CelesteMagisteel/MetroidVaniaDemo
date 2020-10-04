@@ -84,23 +84,26 @@ public class GameState extends TimerTask implements Listener {
 
     @Override
     public void run() {
-        for (Entity entity : new ArrayList<>(entities)) {
-            int y = entity.getY() + 1;
+        try {
+            for (Entity entity : new ArrayList<>(entities)) {
+                if (entity == null) continue;
+                int y = entity.getY() + 1;
+                try {
+                    if (entity.obeysGravity() && confirmLocation(new Location(entity.getX(), y))) {
+                        EventManager.raiseEvent(new EntityMoveEvent(entity, new Location(entity.getX(), entity.getY()), new Location(entity.getX(), y)));
+                    } else entity.setOnGround(true);
+                } catch (InvocationTargetException | IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+            int y = player.getY() + 1;
             try {
-                if (entity.obeysGravity() && confirmLocation(new Location(entity.getX(), y)))
-                    EventManager.raiseEvent(new EntityMoveEvent(entity, new Location(entity.getX(), entity.getY()), new Location(entity.getX(), y)));
+                if (player.obeysGravity() && confirmLocation(new Location(player.getX(), y)))
+                    EventManager.raiseEvent(new EntityMoveEvent(player, new Location(player.getX(), player.getY()), new Location(player.getX(), y)));
                 else player.setOnGround(true);
             } catch (InvocationTargetException | IllegalAccessException e) {
                 e.printStackTrace();
             }
-        }
-        int y = player.getY() + 1;
-        try {
-            if (player.obeysGravity() && confirmLocation(new Location(player.getX(), y)))
-                EventManager.raiseEvent(new EntityMoveEvent(player, new Location(player.getX(), player.getY()), new Location(player.getX(), y)));
-            else player.setOnGround(true);
-        } catch (InvocationTargetException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
+        } catch (Exception e) { e.printStackTrace(); }
     }
 }
